@@ -1,0 +1,129 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Prelude
+providerId: prelude-so
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: true
+tags:
+- Number Verification
+- Phone Verification
+- OTP
+- Anti-Fraud
+- Plans
+description: >-
+  Prelude prices on a usage basis: a per-verification fee plus carrier message
+  costs charged "at cost, zero markup" (Prelude passes through exactly what
+  carriers charge). Three tiers are published. Pay-As-You-Go starts at EUR 0.032
+  per verification with message costs billed separately and no minimum
+  commitment. Startup is EUR 360 / month and adds custom Sender ID, Slack
+  support, advanced anti-fraud, and 6-month data history. Enterprise is custom
+  priced with committed-volume discounts, a 99.95% SLA, dedicated support,
+  post-payment terms, and unlimited data history. Volume discounts apply
+  automatically at higher commitment levels, and an annual subscription includes
+  a 10% discount. Message rates vary by country and channel (SMS, WhatsApp, RCS,
+  Telegram, Viber) - for example a USD SMS is about EUR 0.0043.
+notes: >-
+  Figures reflect the Prelude pricing page as of 2026-07-11 and are in EUR.
+  Per-message carrier rates are pass-through and country/channel-specific;
+  verify current numbers on prelude.so/pricing. Lookup (Intel) and Watch
+  (anti-fraud) usage may be metered separately - confirm with Prelude.
+sources:
+- https://prelude.so/pricing
+- https://prelude.so/verify
+- https://prelude.so/twilio-alternative
+plans:
+- id: prelude-pay-as-you-go
+  name: Pay As You Go
+  type: usage
+  description: >-
+    Entry tier with no minimum commitment. Per-verification fee plus carrier
+    messages at cost. Includes code generation, basic fraud protection,
+    observability, and multichannel delivery.
+  entries:
+  - label: Per Verification
+    name: verification
+    type: usage
+    metric: verifications
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: EUR 0.032 per verification
+    userMultiplied: false
+  - label: Messages (Carrier Pass-Through)
+    name: messages
+    type: usage
+    metric: messages
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: at cost, zero markup (varies by country/channel; e.g. USD SMS ~EUR 0.0043)
+    userMultiplied: false
+  elements:
+  - name: Code Generation
+  - name: Basic Fraud Protection
+  - name: Observability
+  - name: Multichannel Delivery (SMS, WhatsApp, RCS, Viber, Voice)
+- id: prelude-startup
+  name: Startup
+  type: subscription
+  description: >-
+    Monthly plan for scaling teams. Everything in Pay-As-You-Go plus custom
+    Sender ID, Slack support, advanced anti-fraud, and 6-month data history.
+    Message costs still apply separately at cost.
+  entries:
+  - label: Monthly Subscription
+    name: subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: EUR 360 per month (10% discount on annual)
+    userMultiplied: false
+  - label: Messages (Carrier Pass-Through)
+    name: messages
+    type: usage
+    metric: messages
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: at cost, zero markup (varies by country/channel)
+    userMultiplied: false
+  elements:
+  - name: Custom Sender ID
+  - name: Slack Support
+  - name: Advanced Anti-Fraud
+  - name: 6-Month Data History
+- id: prelude-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom-priced plan with committed-volume discounts, a 99.95% uptime SLA,
+    dedicated support, post-payment terms, and unlimited data history. Contact
+    Prelude sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: custom (committed-volume discounts)
+    userMultiplied: false
+  elements:
+  - name: 99.95% SLA
+  - name: Dedicated Support
+  - name: Post-Payment Terms
+  - name: Unlimited Data History
+  - name: Committed-Volume Discounts
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

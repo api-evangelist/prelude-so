@@ -1,0 +1,58 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Prelude
+providerId: prelude-so
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Number Verification
+- OTP
+- Anti-Fraud
+- Rate Limiting
+- Quotas
+description: >-
+  Prelude does not publish fixed numeric per-endpoint rate limits in its public
+  API reference. The API signals throttling with an HTTP 429 response (documented
+  on the verification check endpoint). In practice, verification throughput is
+  governed less by a request-per-second cap than by Prelude's own anti-fraud
+  controls: create-verification can return statuses such as `blocked` or
+  `shadow_blocked` and per-target retries are consolidated within a verification
+  window rather than creating new verifications. Sustained volume and any
+  account-level limits are handled through your plan and, on Enterprise, a
+  99.95% SLA.
+notes: >-
+  No numeric per-minute / per-second limits were documented as of the review
+  date. Handle HTTP 429 with exponential backoff and honor any Retry-After
+  header. Confirm account-specific limits with Prelude support.
+sources:
+- https://docs.prelude.so/verify/v2/api-reference/check-a-code
+- https://docs.prelude.so/verify/v2/api-reference/create-or-retry-a-verification
+- https://prelude.so/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented in the public API reference.
+- name: Verification Retries
+  scope: target
+  metric: verifications
+  limit: consolidated within the verification window
+  notes: Repeated create calls for the same target within the window retry an existing verification instead of creating a new one.
+- name: Watch Feedback Batch
+  scope: request
+  metric: feedbacks
+  limit: 100
+  notes: The Watch feedback endpoint accepts up to 100 feedback items per request.
+policies:
+- name: Anti-Fraud Gating
+  description: Create-verification may return blocked or shadow_blocked and per-target retries are windowed, acting as a fraud-oriented throttle rather than a fixed request cap.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on HTTP 429 responses and honor any Retry-After header.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

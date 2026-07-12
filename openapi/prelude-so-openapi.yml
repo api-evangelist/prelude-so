@@ -1,0 +1,685 @@
+openapi: 3.0.3
+info:
+  title: Prelude API
+  description: >-
+    Prelude is a phone and email verification, transactional messaging, phone
+    number intelligence (lookup), and anti-fraud API - "the trust layer between
+    your signups and your business." This document models Prelude's public REST
+    API v2 (base https://api.prelude.dev/v2) across four products: Verify
+    (create / check one-time passcodes over SMS, WhatsApp, RCS, Viber, and
+    voice), Notify (transactional messaging), Lookup / Intel (phone number
+    intelligence - line type, carrier, ported / temporary flags, CNAM), and
+    Watch (anti-fraud risk prediction and feedback). All requests authenticate
+    with a Bearer API key (Authorization: Bearer YOUR_API_KEY) obtained from the
+    Prelude dashboard under All Services > Configure > Keys. Endpoint paths and
+    request / response schemas are grounded in the live Prelude documentation at
+    docs.prelude.so as of 2026-07-11; the Watch events (dispatch-events) endpoint
+    is modeled from documentation references and marked accordingly.
+  version: '2.0'
+  contact:
+    name: Prelude
+    url: https://prelude.so
+servers:
+  - url: https://api.prelude.dev/v2
+    description: Prelude API v2
+security:
+  - bearerAuth: []
+tags:
+  - name: Verification
+    description: Create and check one-time passcode (OTP) verifications.
+  - name: Transactional
+    description: Send transactional messages over SMS, RCS, and WhatsApp.
+  - name: Lookup
+    description: Phone number intelligence - line type, carrier, and flags.
+  - name: Watch
+    description: Anti-fraud risk prediction and outcome feedback.
+paths:
+  /verification:
+    post:
+      operationId: createVerification
+      tags:
+        - Verification
+      summary: Create or retry a verification
+      description: >-
+        Creates a new verification for a phone number or email address and
+        dispatches a one-time passcode. If a non-expired verification already
+        exists for the same target within the verification window, this endpoint
+        performs a retry instead of creating a new verification.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVerificationRequest'
+      responses:
+        '200':
+          description: The created or retried verification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Verification'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /verification/check:
+    post:
+      operationId: checkVerification
+      tags:
+        - Verification
+      summary: Check a code
+      description: >-
+        Validates a one-time passcode submitted by an end user against an active
+        verification for the given target.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckVerificationRequest'
+      responses:
+        '200':
+          description: The verification check result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationCheck'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /lookup/{phone_number}:
+    get:
+      operationId: lookupPhoneNumber
+      tags:
+        - Lookup
+      summary: Look up a phone number
+      description: >-
+        Returns intelligence about a phone number - line type, current and
+        original carrier (network) info, ported / temporary flags, and
+        optionally the caller name (CNAM). Useful for number validation and
+        anti-fraud enrichment.
+      parameters:
+        - name: phone_number
+          in: path
+          required: true
+          description: An E.164 formatted phone number to look up.
+          schema:
+            type: string
+            example: '+30123456789'
+        - name: type
+          in: query
+          required: false
+          description: >-
+            Optional lookup features to include. Currently supports `cnam` to
+            retrieve the caller ID name (requires enablement on your account).
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - cnam
+      responses:
+        '200':
+          description: Phone number intelligence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /watch/predict:
+    post:
+      operationId: predictWatch
+      tags:
+        - Watch
+      summary: Predict signup risk
+      description: >-
+        Scores a signup identifier (phone number or email address) as
+        `legitimate` or `suspicious`, optionally using anti-fraud signals such
+        as IP, device id, and device platform, plus a frontend SDK dispatch id.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictWatchRequest'
+      responses:
+        '200':
+          description: The risk prediction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictWatchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /watch/feedback:
+    post:
+      operationId: sendWatchFeedback
+      tags:
+        - Watch
+      summary: Send feedbacks about verifications
+      description: >-
+        Reports what actually happened in your verification flow (for example a
+        verification started or completed) so Watch can update its counters and
+        improve future predictions. Accepts up to 100 feedback items per request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackWatchRequest'
+      responses:
+        '200':
+          description: Feedback acknowledgement.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackWatchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /watch/dispatch-events:
+    post:
+      operationId: dispatchWatchEvents
+      tags:
+        - Watch
+      summary: Dispatch events
+      description: >-
+        Sends frontend interaction events (associated with a dispatch id from
+        the Prelude frontend SDK) to Watch to enrich risk scoring. NOTE - this
+        endpoint is referenced in the Prelude documentation but its full request
+        / response schema was not published at review time; the request shape
+        below is modeled and unconfirmed.
+      x-modeled: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DispatchEventsRequest'
+      responses:
+        '200':
+          description: Events acknowledgement.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackWatchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /notify:
+    post:
+      operationId: sendTransactionalMessage
+      tags:
+        - Transactional
+      summary: Send a transactional message
+      description: >-
+        Sends a template-based transactional message to a recipient over the
+        best available channel (SMS, RCS, or WhatsApp). Templates are configured
+        with your Prelude Customer Success team.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+      responses:
+        '200':
+          description: The created message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Bearer API key passed as `Authorization: Bearer YOUR_API_KEY`. Obtain
+        keys from the Prelude dashboard under All Services > Configure > Keys.
+  responses:
+    BadRequest:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Target:
+      type: object
+      required:
+        - type
+        - value
+      properties:
+        type:
+          type: string
+          description: The kind of target identifier.
+          enum:
+            - phone_number
+            - email_address
+        value:
+          type: string
+          description: An E.164 formatted phone number or an email address.
+          example: '+30123456789'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request_id:
+          type: string
+    CreateVerificationRequest:
+      type: object
+      required:
+        - target
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        options:
+          type: object
+          description: Optional verification settings.
+          properties:
+            template_id:
+              type: string
+            variables:
+              type: object
+              additionalProperties:
+                type: string
+            method:
+              type: string
+              enum:
+                - auto
+                - voice
+            locale:
+              type: string
+            sender_id:
+              type: string
+            app_realm:
+              type: object
+              additionalProperties: true
+            code_size:
+              type: integer
+            custom_code:
+              type: string
+            callback_url:
+              type: string
+              format: uri
+            preferred_channel:
+              type: string
+              enum:
+                - sms
+                - rcs
+                - whatsapp
+                - viber
+                - voice
+            force_challenge:
+              type: boolean
+          additionalProperties: true
+        signals:
+          $ref: '#/components/schemas/Signals'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        dispatch_id:
+          type: string
+          description: Identifier of a dispatch created by the Prelude frontend SDK.
+    Signals:
+      type: object
+      description: Anti-fraud signals gathered from the end user's device / session.
+      properties:
+        ip:
+          type: string
+        device_id:
+          type: string
+        device_platform:
+          type: string
+          enum:
+            - android
+            - ios
+            - web
+        device_model:
+          type: string
+        os_version:
+          type: string
+        app_version:
+          type: string
+        user_agent:
+          type: string
+        ja4_fingerprint:
+          type: string
+        is_trusted_user:
+          type: boolean
+      additionalProperties: true
+    Metadata:
+      type: object
+      properties:
+        correlation_id:
+          type: string
+          maxLength: 80
+          description: A user-defined identifier to correlate this call with others.
+    Verification:
+      type: object
+      properties:
+        id:
+          type: string
+          example: vrf_01jc0t6fwwfgfsq1md24mhyztj
+        status:
+          type: string
+          enum:
+            - success
+            - retry
+            - challenged
+            - blocked
+            - shadow_blocked
+        method:
+          type: string
+          enum:
+            - email
+            - message
+            - silent
+            - voice
+        reason:
+          type: string
+          description: Populated when status is blocked or shadow_blocked.
+        channels:
+          type: array
+          description: Ordered sequence of delivery channels attempted.
+          items:
+            type: string
+        silent:
+          type: object
+          additionalProperties: true
+        risk_factors:
+          type: array
+          items:
+            type: string
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        request_id:
+          type: string
+    CheckVerificationRequest:
+      type: object
+      required:
+        - target
+        - code
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        code:
+          type: string
+          description: The one-time passcode submitted by the end user.
+        psd2:
+          type: object
+          description: Transaction details for PSD2 (dynamic linking) verifications.
+          properties:
+            amount:
+              type: string
+            currency:
+              type: string
+            recipient:
+              type: string
+    VerificationCheck:
+      type: object
+      properties:
+        id:
+          type: string
+          example: vrf_01jc0t6fwwfgfsq1md24mhyztj
+        status:
+          type: string
+          enum:
+            - success
+            - failure
+            - expired_or_not_found
+            - transaction_missing
+            - transaction_mismatch
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        request_id:
+          type: string
+    LookupResponse:
+      type: object
+      properties:
+        phone_number:
+          type: string
+        country_code:
+          type: string
+        network_info:
+          $ref: '#/components/schemas/NetworkInfo'
+        original_network_info:
+          $ref: '#/components/schemas/NetworkInfo'
+        flags:
+          type: array
+          description: Flags such as `ported` or `temporary`.
+          items:
+            type: string
+            enum:
+              - ported
+              - temporary
+        caller_name:
+          type: string
+          description: CNAM data; requires enablement.
+        line_type:
+          type: string
+          enum:
+            - mobile
+            - fixed_line
+            - voip
+            - toll_free
+            - premium_rate
+            - unknown
+    NetworkInfo:
+      type: object
+      properties:
+        carrier_name:
+          type: string
+        mcc:
+          type: string
+          description: Mobile Country Code.
+        mnc:
+          type: string
+          description: Mobile Network Code.
+    PredictWatchRequest:
+      type: object
+      required:
+        - target
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        signals:
+          $ref: '#/components/schemas/Signals'
+        dispatch_id:
+          type: string
+          description: Identifier of a dispatch created by the Prelude frontend SDK.
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    PredictWatchResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The prediction identifier.
+        prediction:
+          type: string
+          enum:
+            - legitimate
+            - suspicious
+        risk_factors:
+          type: array
+          description: Present when prediction is suspicious.
+          items:
+            type: string
+            enum:
+              - behavioral_pattern
+              - device_attribute
+              - fraud_database
+              - location_discrepancy
+              - network_fingerprint
+              - poor_conversion_history
+              - prefix_concentration
+              - suspected_request_tampering
+              - suspicious_ip_address
+              - temporary_phone_number
+        request_id:
+          type: string
+    FeedbackWatchRequest:
+      type: object
+      required:
+        - feedbacks
+      properties:
+        feedbacks:
+          type: array
+          maxItems: 100
+          items:
+            type: object
+            required:
+              - target
+              - type
+            properties:
+              target:
+                $ref: '#/components/schemas/Target'
+              type:
+                type: string
+                enum:
+                  - verification.started
+                  - verification.completed
+              metadata:
+                $ref: '#/components/schemas/Metadata'
+    FeedbackWatchResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        request_id:
+          type: string
+    DispatchEventsRequest:
+      type: object
+      description: >-
+        Modeled request shape; the published documentation references this
+        endpoint but did not include its full schema at review time.
+      properties:
+        dispatch_id:
+          type: string
+        events:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    SendMessageRequest:
+      type: object
+      required:
+        - to
+        - template_id
+      properties:
+        to:
+          type: string
+          description: The recipient's phone number in E.164 format.
+          example: '+30123456789'
+        template_id:
+          type: string
+          description: Template identifier configured by your Customer Success team.
+        from:
+          type: string
+          description: Sender ID.
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+        locale:
+          type: string
+          description: BCP-47 language code.
+        schedule_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+        callback_url:
+          type: string
+          format: uri
+        correlation_id:
+          type: string
+          maxLength: 80
+        preferred_channel:
+          type: string
+          enum:
+            - sms
+            - rcs
+            - whatsapp
+        document:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            filename:
+              type: string
+        max_auto_retries:
+          type: integer
+          minimum: 0
+          maximum: 6
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        to:
+          type: string
+        template_id:
+          type: string
+        from:
+          type: string
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+        callback_url:
+          type: string
+          format: uri
+        correlation_id:
+          type: string
+        schedule_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        estimated_segment_count:
+          type: integer
+        encoding:
+          type: string
+          enum:
+            - GSM-7
+            - UCS-2

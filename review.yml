@@ -1,0 +1,94 @@
+aid: prelude-so
+name: Prelude
+review:
+  question: Does Prelude expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Prelude's public API (Verify, Notify,
+    Lookup / Intel, and Watch) is request/response REST over HTTPS at
+    https://api.prelude.dev/v2. There is no client-facing server-push transport
+    (WebSocket or SSE) documented. Asynchronous outcomes - message delivery
+    status and verification events - are delivered by Prelude POSTing to a
+    customer-supplied webhook `callback_url`, which is server-to-endpoint HTTP,
+    not a WebSocket the client connects to. Prelude also ships frontend SDKs
+    (mobile / web) that emit a dispatch_id, but those are client libraries over
+    the same REST/HTTP surface, not a documented public socket protocol.
+findings:
+  summary: |
+    Prelude does not publish a documented public WebSocket API. Prelude is a
+    phone / email verification, transactional messaging, phone number
+    intelligence, and anti-fraud provider. Its public REST API v2 (base
+    https://api.prelude.dev/v2) is authenticated with a Bearer API key
+    (Authorization: Bearer YOUR_API_KEY) and is entirely request/response over
+    HTTPS. Verifications, code checks, lookups, risk predictions, feedback, and
+    transactional sends are all synchronous REST calls. Delivery and
+    verification events are pushed back to the integrator via webhook callbacks
+    (callback_url), not over a WebSocket. No ws:// or wss:// endpoint is
+    documented anywhere in the Prelude API reference as of the review date.
+  openSource: |
+    Prelude's platform is a proprietary hosted service. Prelude publishes open
+    source client SDKs (Python, Node.js, Java, Go) and frontend SDKs, but the
+    verification / routing / anti-fraud backend is not open source or
+    self-hostable. Access is via api.prelude.dev with an account-issued API key.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.prelude.dev/v2
+      documented: true
+      note: All four products (Verify, Notify, Lookup/Intel, Watch) are REST over HTTPS with Bearer API-key auth.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Delivery / verification events are POSTed to a customer-supplied callback_url. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Prelude's API reference as of the review date.
+  endpointsConfirmedRest:
+    - POST https://api.prelude.dev/v2/verification
+    - POST https://api.prelude.dev/v2/verification/check
+    - GET  https://api.prelude.dev/v2/lookup/{phone_number}
+    - POST https://api.prelude.dev/v2/watch/predict
+    - POST https://api.prelude.dev/v2/watch/feedback
+    - POST https://api.prelude.dev/v2/notify
+  endpointsModeled:
+    - POST https://api.prelude.dev/v2/watch/dispatch-events
+  endpointsModeledNote: |
+    The Watch "dispatch-events" endpoint is referenced by the Prelude
+    documentation (linked from the Watch predict / feedback pages) but its full
+    request / response schema was not published at review time. It is modeled in
+    the OpenAPI definition and flagged with x-modeled.
+sources:
+  - url: https://docs.prelude.so
+    type: Documentation
+    note: Prelude documentation hub; products Verify, Auth, Notify, Intel, Watch.
+  - url: https://docs.prelude.so/verify/v2/api-reference/create-or-retry-a-verification
+    type: APIReference
+    note: POST /v2/verification create-or-retry. Base https://api.prelude.dev, Bearer API key. REST.
+  - url: https://docs.prelude.so/verify/v2/api-reference/check-a-code
+    type: APIReference
+    note: POST /v2/verification/check. Request/response schemas confirmed. REST.
+  - url: https://docs.prelude.so/intel/v2/api-reference
+    type: APIReference
+    note: GET /v2/lookup/{phone_number} phone number intelligence. REST.
+  - url: https://docs.prelude.so/watch/v2/api-reference
+    type: APIReference
+    note: POST /v2/watch/predict and POST /v2/watch/feedback anti-fraud. REST.
+  - url: https://docs.prelude.so/notify/v2/api-reference
+    type: APIReference
+    note: POST /v2/notify transactional messaging. REST.
+  - url: https://prelude.so/pricing
+    type: Pricing
+    note: Pay-As-You-Go per verification plus messages at cost; Startup and Enterprise tiers.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Prelude's public API is
+    request/response REST (Verify, Notify, Lookup/Intel, Watch), with
+    asynchronous outcomes delivered via webhook callbacks rather than a
+    client-facing socket. No AsyncAPI document was created because there is no
+    documented server-push transport on Prelude's own API to model.

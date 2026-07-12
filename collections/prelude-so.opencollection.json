@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prelude API v2",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{apiKey}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Verification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create or retry a verification.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/verification",
+            "body": { "type": "json", "data": "{\n  \"target\": {\n    \"type\": \"phone_number\",\n    \"value\": \"+30123456789\"\n  }\n}" }
+          },
+          "docs": "Creates a new verification and dispatches a one-time passcode. If a non-expired verification exists for the same target within the window, performs a retry."
+        },
+        {
+          "info": { "name": "Check a code.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/verification/check",
+            "body": { "type": "json", "data": "{\n  \"target\": {\n    \"type\": \"phone_number\",\n    \"value\": \"+30123456789\"\n  },\n  \"code\": \"123456\"\n}" }
+          },
+          "docs": "Validates a one-time passcode submitted by an end user against an active verification for the given target."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Lookup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Look up a phone number.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prelude.dev/v2/lookup/:phone_number?type=cnam",
+            "params": [
+              { "name": "phone_number", "value": "+30123456789", "type": "path", "description": "An E.164 formatted phone number to look up." },
+              { "name": "type", "value": "cnam", "type": "query", "description": "Optional lookup feature; cnam retrieves the caller ID name." }
+            ]
+          },
+          "docs": "Returns phone number intelligence - line type, current and original carrier info, ported/temporary flags, and optionally CNAM."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Watch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Predict signup risk.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/watch/predict",
+            "body": { "type": "json", "data": "{\n  \"target\": {\n    \"type\": \"phone_number\",\n    \"value\": \"+30123456789\"\n  },\n  \"signals\": {\n    \"ip\": \"203.0.113.10\",\n    \"device_id\": \"device-abc\",\n    \"device_platform\": \"ios\"\n  }\n}" }
+          },
+          "docs": "Scores a signup identifier as legitimate or suspicious using anti-fraud signals."
+        },
+        {
+          "info": { "name": "Send feedbacks about verifications.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/watch/feedback",
+            "body": { "type": "json", "data": "{\n  \"feedbacks\": [\n    {\n      \"target\": {\n        \"type\": \"phone_number\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"verification.completed\"\n    }\n  ]\n}" }
+          },
+          "docs": "Reports what actually happened in your verification flow so Watch can update its counters. Up to 100 items per request."
+        },
+        {
+          "info": { "name": "Dispatch events (modeled).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/watch/dispatch-events",
+            "body": { "type": "json", "data": "{\n  \"dispatch_id\": \"\",\n  \"events\": []\n}" }
+          },
+          "docs": "Sends frontend SDK interaction events to Watch. NOTE: referenced in docs but full schema unconfirmed at review time; request shape is modeled."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transactional",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Send a transactional message.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/notify",
+            "body": { "type": "json", "data": "{\n  \"to\": \"+30123456789\",\n  \"template_id\": \"tmpl_xxx\",\n  \"variables\": {\n    \"name\": \"Kin\"\n  }\n}" }
+          },
+          "docs": "Sends a template-based transactional message over the best available channel (SMS, RCS, or WhatsApp)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

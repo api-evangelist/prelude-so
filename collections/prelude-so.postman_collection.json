@@ -1,0 +1,108 @@
+{
+  "info": {
+    "name": "Prelude API v2",
+    "description": "Prelude phone/email verification, transactional messaging, phone number intelligence, and anti-fraud API. Base URL: https://api.prelude.dev/v2. All requests require a Bearer API key (Authorization: Bearer YOUR_API_KEY) from the Prelude dashboard (All Services > Configure > Keys).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{apiKey}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.prelude.dev/v2", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Verification",
+      "item": [
+        {
+          "name": "Create or retry a verification",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"target\": {\n    \"type\": \"phone_number\",\n    \"value\": \"+30123456789\"\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/verification", "host": ["{{baseUrl}}"], "path": ["verification"] },
+            "description": "Creates a new verification and dispatches a one-time passcode. If a non-expired verification exists for the same target within the window, performs a retry."
+          }
+        },
+        {
+          "name": "Check a code",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"target\": {\n    \"type\": \"phone_number\",\n    \"value\": \"+30123456789\"\n  },\n  \"code\": \"123456\"\n}" },
+            "url": { "raw": "{{baseUrl}}/verification/check", "host": ["{{baseUrl}}"], "path": ["verification", "check"] },
+            "description": "Validates a one-time passcode submitted by an end user against an active verification for the given target."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lookup",
+      "item": [
+        {
+          "name": "Look up a phone number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/lookup/:phone_number?type=cnam", "host": ["{{baseUrl}}"], "path": ["lookup", ":phone_number"], "query": [{ "key": "type", "value": "cnam" }], "variable": [{ "key": "phone_number", "value": "+30123456789" }] },
+            "description": "Returns phone number intelligence - line type, current and original carrier info, ported/temporary flags, and optionally CNAM."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Watch",
+      "item": [
+        {
+          "name": "Predict signup risk",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"target\": {\n    \"type\": \"phone_number\",\n    \"value\": \"+30123456789\"\n  },\n  \"signals\": {\n    \"ip\": \"203.0.113.10\",\n    \"device_id\": \"device-abc\",\n    \"device_platform\": \"ios\"\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/watch/predict", "host": ["{{baseUrl}}"], "path": ["watch", "predict"] },
+            "description": "Scores a signup identifier as legitimate or suspicious using anti-fraud signals."
+          }
+        },
+        {
+          "name": "Send feedbacks about verifications",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"feedbacks\": [\n    {\n      \"target\": {\n        \"type\": \"phone_number\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"verification.completed\"\n    }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/watch/feedback", "host": ["{{baseUrl}}"], "path": ["watch", "feedback"] },
+            "description": "Reports what actually happened in your verification flow so Watch can update its counters. Up to 100 items per request."
+          }
+        },
+        {
+          "name": "Dispatch events (modeled)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"dispatch_id\": \"\",\n  \"events\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/watch/dispatch-events", "host": ["{{baseUrl}}"], "path": ["watch", "dispatch-events"] },
+            "description": "Sends frontend SDK interaction events to Watch. NOTE: referenced in docs but full schema unconfirmed at review time; request shape is modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactional",
+      "item": [
+        {
+          "name": "Send a transactional message",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"to\": \"+30123456789\",\n  \"template_id\": \"tmpl_xxx\",\n  \"variables\": {\n    \"name\": \"Kin\"\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/notify", "host": ["{{baseUrl}}"], "path": ["notify"] },
+            "description": "Sends a template-based transactional message over the best available channel (SMS, RCS, or WhatsApp)."
+          }
+        }
+      ]
+    }
+  ]
+}

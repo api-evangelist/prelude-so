@@ -1,0 +1,107 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Prelude
+providerId: prelude-so
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Number Verification
+- OTP
+- Anti-Fraud
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Prelude spend. Prelude is a hosted, usage-based service. The two
+  dominant cost drivers are (1) a per-verification fee (from EUR 0.032 on
+  Pay-As-You-Go) and (2) carrier message costs, which Prelude bills "at cost,
+  zero markup" and which vary by destination country and channel (SMS, WhatsApp,
+  RCS, Viber, voice). The Startup tier adds a fixed EUR 360 / month platform
+  subscription on top of usage. Enterprise is committed-volume with automatic
+  discounts, post-payment terms, and a 99.95% SLA. Lookup (Intel) and Watch
+  (anti-fraud) calls may be metered separately. Because message cost is
+  pass-through and country-specific, geographic mix of your users is the single
+  biggest lever on total spend.
+notes: >-
+  Per-unit rates reflect prelude.so/pricing as of 2026-07-11 (EUR). Carrier
+  message rates change by country/channel; treat them as pass-through variable
+  cost. Confirm Lookup and Watch metering with Prelude.
+sources:
+- https://prelude.so/pricing
+- https://prelude.so/verify
+- https://docs.prelude.so
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Prelude
+serviceCategory: Identity and Anti-Fraud
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: EUR
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Prelude Verify
+  ServiceCategory: Identity and Anti-Fraud
+  ProviderName: Prelude
+  PublisherName: Prelude
+  InvoiceIssuerName: Prelude
+  BillingCurrency: EUR
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: verifications
+  description: One-time passcode verifications created, billed per verification.
+  unit: verifications
+  aggregation: sum
+  dimensions:
+  - account
+  - channel
+  - country
+- name: messages
+  description: Carrier messages sent (Verify and Notify), billed at cost per country/channel.
+  unit: messages
+  aggregation: sum
+  dimensions:
+  - account
+  - channel
+  - country
+- name: lookups
+  description: Phone number intelligence (Lookup / Intel) queries.
+  unit: lookups
+  aggregation: sum
+  dimensions:
+  - account
+- name: watch_predictions
+  description: Anti-fraud (Watch) predict calls.
+  unit: predictions
+  aggregation: sum
+  dimensions:
+  - account
+- name: platform_subscription
+  description: Fixed monthly platform fee on the Startup tier.
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track verifications and messages by destination country and channel; message cost is pass-through and country-driven.
+- name: Allocation
+  description: Use correlation_id / metadata and per-product API keys to map verification, lookup, and watch spend to teams or products.
+- name: Optimization
+  description: Let Prelude's smart routing pick the cheapest working channel; use Watch and Lookup to suppress fraudulent or invalid numbers before paying to message them; prefer cheaper channels where deliverability allows.
+- name: Accountability
+  description: Review monthly usage against tier features; on Enterprise, negotiate committed-volume discounts and monitor against the 99.95% SLA.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

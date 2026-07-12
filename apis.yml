@@ -1,0 +1,147 @@
+aid: prelude-so
+url: https://raw.githubusercontent.com/api-evangelist/prelude-so/refs/heads/main/apis.yml
+name: Prelude
+kind: company
+description: >-
+  Prelude is a phone and email verification API - "the trust layer between your
+  signups and your business." Its Verify API creates and checks one-time
+  passcodes (OTP) across SMS, WhatsApp, RCS, Viber, and voice in 230+ countries,
+  with smart multi-provider routing and built-in anti-fraud. Alongside Verify,
+  Prelude offers Notify (transactional messaging), Lookup / Intel (phone number
+  intelligence - line type, carrier, ported and temporary flags, CNAM), and
+  Watch (anti-fraud risk prediction and feedback). The public REST API v2 lives
+  at https://api.prelude.dev/v2 with Bearer API-key auth and official SDKs for
+  Python, Node.js, Java, and Go. Prelude positions itself as a developer-first
+  alternative to Twilio Verify.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Number Verification
+- Phone Verification
+- OTP
+- Authentication
+- Anti-Fraud
+- Two-Factor Authentication
+- SMS
+- Phone Number Lookup
+created: '2026-07-11'
+modified: '2026-07-11'
+specificationVersion: '0.19'
+apis:
+- aid: prelude-so:prelude-so-verification-api
+  name: Prelude Verification API
+  tags:
+  - Number Verification
+  - Phone Verification
+  - OTP
+  - Authentication
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.prelude.so/verify/v2/api-reference/create-or-retry-a-verification
+  baseURL: https://api.prelude.dev/v2
+  properties:
+  - url: https://docs.prelude.so/verify/v2/documentation/introduction
+    type: Documentation
+  - url: https://docs.prelude.so/verify/v2/api-reference/create-or-retry-a-verification
+    type: APIReference
+  - url: openapi/prelude-so-openapi.yml
+    type: OpenAPI
+  - url: collections/prelude-so.postman_collection.json
+    type: PostmanCollection
+  - url: collections/prelude-so.opencollection.json
+    type: OpenCollection
+  description: >-
+    Create or retry a one-time passcode (OTP) verification for a phone number or
+    email address and check the submitted code. Delivery spans SMS, WhatsApp,
+    RCS, Viber, and voice with smart multi-provider routing, optional PSD2
+    dynamic linking on check, and inline anti-fraud signals. POST /verification
+    and POST /verification/check.
+- aid: prelude-so:prelude-so-lookup-api
+  name: Prelude Lookup API
+  tags:
+  - Phone Number Lookup
+  - Number Intelligence
+  - Carrier
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.prelude.so/intel/v2/api-reference
+  baseURL: https://api.prelude.dev/v2
+  properties:
+  - url: https://docs.prelude.so/intel/v2/api-reference
+    type: APIReference
+  - url: openapi/prelude-so-openapi.yml
+    type: OpenAPI
+  - url: collections/prelude-so.postman_collection.json
+    type: PostmanCollection
+  - url: collections/prelude-so.opencollection.json
+    type: OpenCollection
+  description: >-
+    Phone number intelligence (Intel). Look up an E.164 number to get its line
+    type (mobile, fixed_line, voip, etc.), current and original carrier / network
+    info (name, MCC, MNC), ported and temporary flags, and optionally the caller
+    name (CNAM). Useful for number validation and pre-verification fraud
+    screening. GET /lookup/{phone_number}.
+- aid: prelude-so:prelude-so-watch-api
+  name: Prelude Watch Anti-Fraud API
+  tags:
+  - Anti-Fraud
+  - Risk Scoring
+  - Fraud Detection
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.prelude.so/watch/v2/api-reference
+  baseURL: https://api.prelude.dev/v2
+  properties:
+  - url: https://docs.prelude.so/watch/v2/api-reference
+    type: APIReference
+  - url: openapi/prelude-so-openapi.yml
+    type: OpenAPI
+  - url: collections/prelude-so.postman_collection.json
+    type: PostmanCollection
+  - url: collections/prelude-so.opencollection.json
+    type: OpenCollection
+  description: >-
+    Anti-fraud (Watch). Predict whether a signup identifier is legitimate or
+    suspicious using device, network, and behavioral signals, then send feedback
+    about what actually happened in your verification flow so the model improves.
+    POST /watch/predict, POST /watch/feedback, and a documentation-referenced
+    dispatch-events endpoint (modeled).
+- aid: prelude-so:prelude-so-transactional-api
+  name: Prelude Transactional Messaging API
+  tags:
+  - Transactional Messaging
+  - SMS
+  - Notifications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.prelude.so/notify/v2/api-reference
+  baseURL: https://api.prelude.dev/v2
+  properties:
+  - url: https://docs.prelude.so/notify/v2/api-reference
+    type: APIReference
+  - url: openapi/prelude-so-openapi.yml
+    type: OpenAPI
+  - url: collections/prelude-so.postman_collection.json
+    type: PostmanCollection
+  - url: collections/prelude-so.opencollection.json
+    type: OpenCollection
+  description: >-
+    Transactional messaging (Notify). Send a template-based message to a
+    recipient over the best available channel (SMS, RCS, or WhatsApp), with
+    variables, scheduling, expiry, delivery callbacks, media documents, and
+    auto-retries. POST /notify.
+common:
+- type: Authentication
+  url: authentication/prelude-so-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/prelude-so
+- type: Website
+  url: https://prelude.so
+- type: Documentation
+  url: https://docs.prelude.so
+- type: Plans
+  url: plans/prelude-so-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/prelude-so-rate-limits.yml
+- type: FinOps
+  url: finops/prelude-so-finops.yml
+- url: https://prelude.so/blog
+  type: Blog
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
