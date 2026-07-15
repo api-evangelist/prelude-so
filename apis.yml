@@ -126,6 +126,8 @@ apis:
     variables, scheduling, expiry, delivery callbacks, media documents, and
     auto-retries. POST /notify.
 common:
+- type: AgenticAccess
+  url: agentic-access/prelude-so-agentic-access.yml
 - type: Authentication
   url: authentication/prelude-so-authentication.yml
 - type: LinkedIn
