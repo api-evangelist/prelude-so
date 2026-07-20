@@ -9,7 +9,7 @@ schemes:
   type: http
   scheme: bearer
   description: >-
-    Bearer API key passed as `Authorization: Bearer YOUR_API_KEY`. Keys are
+    Bearer API key passed as `Authorization: Bearer [example key]`. Keys are
     issued from the Prelude dashboard under All Services > Configure > Keys. In
     API v2 this replaced the v1 `X-API-Key` header and the previously required
     `CUSTOMER_UUID` header.
