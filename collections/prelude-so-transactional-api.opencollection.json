@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prelude Lookup Transactional API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactional",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send a transactional message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/notify",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends a template-based transactional message to a recipient over the best available channel (SMS, RCS, or WhatsApp). Templates are configured with your Prelude Customer Success team."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

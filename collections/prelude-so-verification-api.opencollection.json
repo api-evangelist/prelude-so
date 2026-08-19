@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prelude Lookup Verification API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Verification",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or retry a verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/verification",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new verification for a phone number or email address and dispatches a one-time passcode. If a non-expired verification already exists for the same target within the verification window, this endpoint performs a retry instead of creating a new verification."
+        },
+        {
+          "info": {
+            "name": "Check a code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/verification/check",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates a one-time passcode submitted by an end user against an active verification for the given target."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

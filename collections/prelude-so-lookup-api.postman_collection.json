@@ -1,0 +1,281 @@
+{
+  "item": [
+    {
+      "id": "4a9a301a-2018-46b5-868a-8da4367abec7",
+      "name": "Lookup",
+      "description": {
+        "content": "Phone number intelligence - line type, carrier, and flags.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d2feec2c-d9ad-4124-88bc-e3ec9cab9062",
+          "name": "Look up a phone number",
+          "request": {
+            "name": "Look up a phone number",
+            "description": {
+              "content": "Returns intelligence about a phone number - line type, current and original carrier (network) info, ported / temporary flags, and optionally the caller name (CNAM). Useful for number validation and anti-fraud enrichment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "lookup",
+                ":phone_number"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Optional lookup features to include. Currently supports `cnam` to retrieve the caller ID name (requires enablement on your account)."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Optional lookup features to include. Currently supports `cnam` to retrieve the caller ID name (requires enablement on your account)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "phone_number",
+                  "description": "(Required) An E.164 formatted phone number to look up."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a30bbd0-dc70-47d2-95d8-03a96806b859",
+              "name": "Phone number intelligence.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lookup",
+                    ":phone_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phone_number",
+                      "description": "(Required) An E.164 formatted phone number to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"phone_number\": \"string\",\n  \"country_code\": \"string\",\n  \"network_info\": {\n    \"carrier_name\": \"string\",\n    \"mcc\": \"string\",\n    \"mnc\": \"string\"\n  },\n  \"original_network_info\": {\n    \"carrier_name\": \"string\",\n    \"mcc\": \"string\",\n    \"mnc\": \"string\"\n  },\n  \"flags\": [\n    \"ported\",\n    \"temporary\"\n  ],\n  \"caller_name\": \"string\",\n  \"line_type\": \"fixed_line\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65ea8828-0a46-47b1-a8fd-b7ab2ccd700e",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lookup",
+                    ":phone_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phone_number",
+                      "description": "(Required) An E.164 formatted phone number to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc5ac277-7e02-4a6d-ba41-197f540ed857",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lookup",
+                    ":phone_number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phone_number",
+                      "description": "(Required) An E.164 formatted phone number to look up."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prelude.dev/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3a5a3b31-334f-4eca-b7bf-5840e908d743",
+    "name": "Prelude Lookup API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Prelude is a phone and email verification, transactional messaging, phone number intelligence (lookup), and anti-fraud API - \"the trust layer between your signups and your business.\" This document models Prelude's public REST API v2 (base https://api.prelude.dev/v2) across four products: Verify (create / check one-time passcodes over SMS, WhatsApp, RCS, Viber, and voice), Notify (transactional messaging), Lookup / Intel (phone number intelligence - line type, carrier, ported / temporary flags, CNAM), and Watch (anti-fraud risk prediction and feedback). All requests authenticate with a Bearer API key (Authorization: Bearer YOUR_API_KEY) obtained from the Prelude dashboard under All Services > Configure > Keys. Endpoint paths and request / response schemas are grounded in the live Prelude documentation at docs.prelude.so as of 2026-07-11; the Watch events (dispatch-events) endpoint is modeled from documentation references and marked accordingly.\n\nContact Support:\n Name: Prelude",
+      "type": "text/plain"
+    }
+  }
+}

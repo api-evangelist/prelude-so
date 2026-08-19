@@ -1,0 +1,550 @@
+{
+  "item": [
+    {
+      "id": "29880d09-a55a-4cd1-8dd2-2b8101e9f097",
+      "name": "Verification",
+      "description": {
+        "content": "Create and check one-time passcode (OTP) verifications.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2907c64d-50e5-44b9-a622-0a8544cd30a2",
+          "name": "Create or retry a verification",
+          "request": {
+            "name": "Create or retry a verification",
+            "description": {
+              "content": "Creates a new verification for a phone number or email address and dispatches a one-time passcode. If a non-expired verification already exists for the same target within the verification window, this endpoint performs a retry instead of creating a new verification.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verification"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"options\": {\n    \"template_id\": \"<string>\",\n    \"variables\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"method\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"sender_id\": \"<string>\",\n    \"app_realm\": {\n      \"key_0\": true,\n      \"key_1\": true,\n      \"key_2\": 8441.628175151533,\n      \"key_3\": true\n    },\n    \"code_size\": \"<integer>\",\n    \"custom_code\": \"<string>\",\n    \"callback_url\": \"<uri>\",\n    \"preferred_channel\": \"<string>\",\n    \"force_challenge\": \"<boolean>\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\"\n  },\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  },\n  \"dispatch_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3097511b-e1a1-42de-b884-67c6bbd7c79d",
+              "name": "The created or retried verification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"options\": {\n    \"template_id\": \"<string>\",\n    \"variables\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"method\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"sender_id\": \"<string>\",\n    \"app_realm\": {\n      \"key_0\": 5700.584598883745\n    },\n    \"code_size\": \"<integer>\",\n    \"custom_code\": \"<string>\",\n    \"callback_url\": \"<uri>\",\n    \"preferred_channel\": \"<string>\",\n    \"force_challenge\": \"<boolean>\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\",\n    \"key_0\": \"string\",\n    \"key_1\": 592\n  },\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  },\n  \"dispatch_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"vrf_01jc0t6fwwfgfsq1md24mhyztj\",\n  \"status\": \"challenged\",\n  \"method\": \"email\",\n  \"reason\": \"string\",\n  \"channels\": [\n    \"string\",\n    \"string\"\n  ],\n  \"silent\": {\n    \"key_0\": false,\n    \"key_1\": \"string\"\n  },\n  \"risk_factors\": [\n    \"string\",\n    \"string\"\n  ],\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  },\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d09ba0d-ffae-41de-9334-0e4dee33fb7a",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"options\": {\n    \"template_id\": \"<string>\",\n    \"variables\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"method\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"sender_id\": \"<string>\",\n    \"app_realm\": {\n      \"key_0\": 5700.584598883745\n    },\n    \"code_size\": \"<integer>\",\n    \"custom_code\": \"<string>\",\n    \"callback_url\": \"<uri>\",\n    \"preferred_channel\": \"<string>\",\n    \"force_challenge\": \"<boolean>\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\",\n    \"key_0\": \"string\",\n    \"key_1\": 592\n  },\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  },\n  \"dispatch_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f1a66d2-78a1-4503-9cba-7fc905d48c48",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"options\": {\n    \"template_id\": \"<string>\",\n    \"variables\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"method\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"sender_id\": \"<string>\",\n    \"app_realm\": {\n      \"key_0\": 5700.584598883745\n    },\n    \"code_size\": \"<integer>\",\n    \"custom_code\": \"<string>\",\n    \"callback_url\": \"<uri>\",\n    \"preferred_channel\": \"<string>\",\n    \"force_challenge\": \"<boolean>\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\",\n    \"key_0\": \"string\",\n    \"key_1\": 592\n  },\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  },\n  \"dispatch_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c2fc097-2622-4c4c-a2e0-33833302825a",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"options\": {\n    \"template_id\": \"<string>\",\n    \"variables\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"method\": \"<string>\",\n    \"locale\": \"<string>\",\n    \"sender_id\": \"<string>\",\n    \"app_realm\": {\n      \"key_0\": 5700.584598883745\n    },\n    \"code_size\": \"<integer>\",\n    \"custom_code\": \"<string>\",\n    \"callback_url\": \"<uri>\",\n    \"preferred_channel\": \"<string>\",\n    \"force_challenge\": \"<boolean>\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\",\n    \"key_0\": \"string\",\n    \"key_1\": 592\n  },\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  },\n  \"dispatch_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ff8dbed-2535-4d92-870d-cc9ea1489068",
+          "name": "Check a code",
+          "request": {
+            "name": "Check a code",
+            "description": {
+              "content": "Validates a one-time passcode submitted by an end user against an active verification for the given target.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "verification",
+                "check"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"code\": \"<string>\",\n  \"psd2\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"recipient\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fbd1f1c3-164e-4c83-9862-ca2fe0fc4b63",
+              "name": "The verification check result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification",
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"code\": \"<string>\",\n  \"psd2\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"recipient\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"vrf_01jc0t6fwwfgfsq1md24mhyztj\",\n  \"status\": \"transaction_mismatch\",\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  },\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4a8d9bb-3bd9-434e-9da2-339f45cffd52",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification",
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"code\": \"<string>\",\n  \"psd2\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"recipient\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94cdab3f-8400-4378-9de6-ee8b1da229f9",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification",
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"code\": \"<string>\",\n  \"psd2\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"recipient\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d0c0e16-36e8-424d-bd78-8c55c637586c",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "verification",
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"code\": \"<string>\",\n  \"psd2\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"recipient\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prelude.dev/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c8d4bde6-0a72-49b7-91a0-700cb5446cc7",
+    "name": "Prelude Lookup Verification API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Prelude is a phone and email verification, transactional messaging, phone number intelligence (lookup), and anti-fraud API - \"the trust layer between your signups and your business.\" This document models Prelude's public REST API v2 (base https://api.prelude.dev/v2) across four products: Verify (create / check one-time passcodes over SMS, WhatsApp, RCS, Viber, and voice), Notify (transactional messaging), Lookup / Intel (phone number intelligence - line type, carrier, ported / temporary flags, CNAM), and Watch (anti-fraud risk prediction and feedback). All requests authenticate with a Bearer API key (Authorization: Bearer YOUR_API_KEY) obtained from the Prelude dashboard under All Services > Configure > Keys. Endpoint paths and request / response schemas are grounded in the live Prelude documentation at docs.prelude.so as of 2026-07-11; the Watch events (dispatch-events) endpoint is modeled from documentation references and marked accordingly.\n\nContact Support:\n Name: Prelude",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prelude Lookup Watch API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Watch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Predict signup risk",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/watch/predict",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Scores a signup identifier (phone number or email address) as `legitimate` or `suspicious`, optionally using anti-fraud signals such as IP, device id, and device platform, plus a frontend SDK dispatch id."
+        },
+        {
+          "info": {
+            "name": "Send feedbacks about verifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/watch/feedback",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reports what actually happened in your verification flow (for example a verification started or completed) so Watch can update its counters and improve future predictions. Accepts up to 100 feedback items per request."
+        },
+        {
+          "info": {
+            "name": "Dispatch events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prelude.dev/v2/watch/dispatch-events",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends frontend interaction events (associated with a dispatch id from the Prelude frontend SDK) to Watch to enrich risk scoring. NOTE - this endpoint is referenced in the Prelude documentation but its full request / response schema was not published at review time; the request shape below is modeled and unconfirmed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

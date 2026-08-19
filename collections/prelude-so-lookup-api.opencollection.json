@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prelude Lookup API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lookup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Look up a phone number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prelude.dev/v2/lookup/:phone_number",
+            "params": [
+              {
+                "name": "phone_number",
+                "value": "",
+                "type": "path",
+                "description": "An E.164 formatted phone number to look up."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Optional lookup features to include. Currently supports `cnam` to retrieve the caller ID name (requires enablement on your account)."
+              }
+            ]
+          },
+          "docs": "Returns intelligence about a phone number - line type, current and original carrier (network) info, ported / temporary flags, and optionally the caller name (CNAM). Useful for number validation and anti-fraud enrichment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,604 @@
+{
+  "item": [
+    {
+      "id": "285bc4ce-5123-4df9-8e5a-79c731dd23c7",
+      "name": "Watch",
+      "description": {
+        "content": "Anti-fraud risk prediction and outcome feedback.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5b646100-911a-4aed-914f-6250d2042a6a",
+          "name": "Predict signup risk",
+          "request": {
+            "name": "Predict signup risk",
+            "description": {
+              "content": "Scores a signup identifier (phone number or email address) as `legitimate` or `suspicious`, optionally using anti-fraud signals such as IP, device id, and device platform, plus a frontend SDK dispatch id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "watch",
+                "predict"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"<string>\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\"\n  },\n  \"dispatch_id\": \"<string>\",\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "90d3f4d3-b4ee-4821-8cb7-cb7e6cc0cef0",
+              "name": "The risk prediction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "predict"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\"\n  },\n  \"dispatch_id\": \"<string>\",\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"prediction\": \"suspicious\",\n  \"risk_factors\": [\n    \"location_discrepancy\",\n    \"fraud_database\"\n  ],\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad4a5750-81f3-4a91-8c2b-ff05001e31b6",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "predict"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\"\n  },\n  \"dispatch_id\": \"<string>\",\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc4a59c6-efd1-44f4-af6b-4a060bc4c568",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "predict"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"target\": {\n    \"type\": \"<string>\",\n    \"value\": \"+30123456789\"\n  },\n  \"signals\": {\n    \"ip\": \"<string>\",\n    \"device_id\": \"<string>\",\n    \"device_platform\": \"<string>\",\n    \"device_model\": \"<string>\",\n    \"os_version\": \"<string>\",\n    \"app_version\": \"<string>\",\n    \"user_agent\": \"<string>\",\n    \"ja4_fingerprint\": \"<string>\",\n    \"is_trusted_user\": \"<boolean>\"\n  },\n  \"dispatch_id\": \"<string>\",\n  \"metadata\": {\n    \"correlation_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3197761b-1da9-4e9b-80f3-9c5eee97bba6",
+          "name": "Send feedbacks about verifications",
+          "request": {
+            "name": "Send feedbacks about verifications",
+            "description": {
+              "content": "Reports what actually happened in your verification flow (for example a verification started or completed) so Watch can update its counters and improve future predictions. Accepts up to 100 feedback items per request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "watch",
+                "feedback"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"feedbacks\": [\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    },\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5528455e-ddeb-4985-9eea-cbfe69219d35",
+              "name": "Feedback acknowledgement.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "feedback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feedbacks\": [\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    },\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3370bddf-17b9-400b-a598-cebf23a2a62f",
+              "name": "The request was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "feedback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feedbacks\": [\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    },\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "968deb2b-d9b3-45ad-8686-bed793309c50",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "feedback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"feedbacks\": [\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    },\n    {\n      \"target\": {\n        \"type\": \"<string>\",\n        \"value\": \"+30123456789\"\n      },\n      \"type\": \"<string>\",\n      \"metadata\": {\n        \"correlation_id\": \"<string>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd65df2e-bc96-4847-bd5e-9916b274bd3e",
+          "name": "Dispatch events",
+          "request": {
+            "name": "Dispatch events",
+            "description": {
+              "content": "Sends frontend interaction events (associated with a dispatch id from the Prelude frontend SDK) to Watch to enrich risk scoring. NOTE - this endpoint is referenced in the Prelude documentation but its full request / response schema was not published at review time; the request shape below is modeled and unconfirmed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "watch",
+                "dispatch-events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dispatch_id\": \"<string>\",\n  \"events\": [\n    {\n      \"key_0\": 4476.810028548885,\n      \"key_1\": true\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a37522ec-96f6-49cd-bad6-9ec9ca54aa82",
+              "name": "Events acknowledgement.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "dispatch-events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dispatch_id\": \"<string>\",\n  \"events\": [\n    {\n      \"key_0\": 133.71409426166548\n    },\n    {\n      \"key_0\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04563d3d-ee6f-4232-ae4e-725d6376a312",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "watch",
+                    "dispatch-events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dispatch_id\": \"<string>\",\n  \"events\": [\n    {\n      \"key_0\": 133.71409426166548\n    },\n    {\n      \"key_0\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prelude.dev/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8993217e-f22d-4aea-8ba3-59341b80f95d",
+    "name": "Prelude Lookup Watch API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Prelude is a phone and email verification, transactional messaging, phone number intelligence (lookup), and anti-fraud API - \"the trust layer between your signups and your business.\" This document models Prelude's public REST API v2 (base https://api.prelude.dev/v2) across four products: Verify (create / check one-time passcodes over SMS, WhatsApp, RCS, Viber, and voice), Notify (transactional messaging), Lookup / Intel (phone number intelligence - line type, carrier, ported / temporary flags, CNAM), and Watch (anti-fraud risk prediction and feedback). All requests authenticate with a Bearer API key (Authorization: Bearer YOUR_API_KEY) obtained from the Prelude dashboard under All Services > Configure > Keys. Endpoint paths and request / response schemas are grounded in the live Prelude documentation at docs.prelude.so as of 2026-07-11; the Watch events (dispatch-events) endpoint is modeled from documentation references and marked accordingly.\n\nContact Support:\n Name: Prelude",
+      "type": "text/plain"
+    }
+  }
+}
