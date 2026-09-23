@@ -1,0 +1,29 @@
+# Front Door AI Index — prelude-so — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: prelude-so
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: prelude.so
+  final_host: prelude.so
+  ownership: own
+  owner: prelude-so
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 2
+  host_score: 2
+  density: 3.27
+  words: 612
+  tiers:
+    agentic: 1
+    core: 1
+    model: 0
+  ambiguous: 4
+  top_terms:
+    smart: 2
+    AI agent: 1
+    AI: 1
+    agent: 1
+    intelligence: 1
