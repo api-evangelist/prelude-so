@@ -53,6 +53,28 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    NetworkInfo:
+      type: object
+      properties:
+        carrier_name:
+          type: string
+        mcc:
+          type: string
+          description: Mobile Country Code.
+        mnc:
+          type: string
+          description: Mobile Network Code.
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request_id:
+          type: string
     LookupResponse:
       type: object
       properties:
@@ -84,37 +106,15 @@ components:
           - toll_free
           - premium_rate
           - unknown
-    NetworkInfo:
-      type: object
-      properties:
-        carrier_name:
-          type: string
-        mcc:
-          type: string
-          description: Mobile Country Code.
-        mnc:
-          type: string
-          description: Mobile Network Code.
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request_id:
-          type: string
   responses:
-    BadRequest:
-      description: The request was invalid.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    BadRequest:
+      description: The request was invalid.
       content:
         application/json:
           schema:

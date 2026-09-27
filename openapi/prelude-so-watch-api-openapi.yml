@@ -87,6 +87,19 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     DispatchEventsRequest:
       type: object
@@ -99,6 +112,28 @@ components:
           items:
             type: object
             additionalProperties: true
+    FeedbackWatchResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        request_id:
+          type: string
+    PredictWatchRequest:
+      type: object
+      required:
+      - target
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        signals:
+          $ref: '#/components/schemas/Signals'
+        dispatch_id:
+          type: string
+          description: Identifier of a dispatch created by the Prelude frontend SDK.
+        metadata:
+          $ref: '#/components/schemas/Metadata'
     Signals:
       type: object
       description: Anti-fraud signals gathered from the end user's device / session.
@@ -155,6 +190,17 @@ components:
             - temporary_phone_number
         request_id:
           type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request_id:
+          type: string
     Target:
       type: object
       required:
@@ -171,20 +217,6 @@ components:
           type: string
           description: An E.164 formatted phone number or an email address.
           example: '+30123456789'
-    PredictWatchRequest:
-      type: object
-      required:
-      - target
-      properties:
-        target:
-          $ref: '#/components/schemas/Target'
-        signals:
-          $ref: '#/components/schemas/Signals'
-        dispatch_id:
-          type: string
-          description: Identifier of a dispatch created by the Prelude frontend SDK.
-        metadata:
-          $ref: '#/components/schemas/Metadata'
     FeedbackWatchRequest:
       type: object
       required:
@@ -215,38 +247,6 @@ components:
           type: string
           maxLength: 80
           description: A user-defined identifier to correlate this call with others.
-    FeedbackWatchResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          example: success
-        request_id:
-          type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request_id:
-          type: string
-  responses:
-    BadRequest:
-      description: The request was invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

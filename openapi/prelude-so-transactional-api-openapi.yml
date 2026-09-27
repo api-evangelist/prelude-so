@@ -40,7 +40,56 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        to:
+          type: string
+        template_id:
+          type: string
+        from:
+          type: string
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+        callback_url:
+          type: string
+          format: uri
+        correlation_id:
+          type: string
+        schedule_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        estimated_segment_count:
+          type: integer
+        encoding:
+          type: string
+          enum:
+          - GSM-7
+          - UCS-2
     SendMessageRequest:
       type: object
       required:
@@ -94,42 +143,6 @@ components:
           type: integer
           minimum: 0
           maximum: 6
-    Message:
-      type: object
-      properties:
-        id:
-          type: string
-        to:
-          type: string
-        template_id:
-          type: string
-        from:
-          type: string
-        variables:
-          type: object
-          additionalProperties:
-            type: string
-        callback_url:
-          type: string
-          format: uri
-        correlation_id:
-          type: string
-        schedule_at:
-          type: string
-          format: date-time
-        expires_at:
-          type: string
-          format: date-time
-        created_at:
-          type: string
-          format: date-time
-        estimated_segment_count:
-          type: integer
-        encoding:
-          type: string
-          enum:
-          - GSM-7
-          - UCS-2
     Error:
       type: object
       properties:
@@ -141,19 +154,6 @@ components:
           type: string
         request_id:
           type: string
-  responses:
-    BadRequest:
-      description: The request was invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -68,34 +68,44 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Signals:
+    VerificationCheck:
       type: object
-      description: Anti-fraud signals gathered from the end user's device / session.
       properties:
-        ip:
+        id:
           type: string
-        device_id:
-          type: string
-        device_platform:
+          example: vrf_01jc0t6fwwfgfsq1md24mhyztj
+        status:
           type: string
           enum:
-          - android
-          - ios
-          - web
-        device_model:
+          - success
+          - failure
+          - expired_or_not_found
+          - transaction_missing
+          - transaction_mismatch
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        request_id:
           type: string
-        os_version:
-          type: string
-        app_version:
-          type: string
-        user_agent:
-          type: string
-        ja4_fingerprint:
-          type: string
-        is_trusted_user:
-          type: boolean
-      additionalProperties: true
     Verification:
       type: object
       properties:
@@ -136,22 +146,33 @@ components:
           $ref: '#/components/schemas/Metadata'
         request_id:
           type: string
-    Target:
+    Signals:
       type: object
-      required:
-      - type
-      - value
+      description: Anti-fraud signals gathered from the end user's device / session.
       properties:
-        type:
+        ip:
           type: string
-          description: The kind of target identifier.
+        device_id:
+          type: string
+        device_platform:
+          type: string
           enum:
-          - phone_number
-          - email_address
-        value:
+          - android
+          - ios
+          - web
+        device_model:
           type: string
-          description: An E.164 formatted phone number or an email address.
-          example: '+30123456789'
+        os_version:
+          type: string
+        app_version:
+          type: string
+        user_agent:
+          type: string
+        ja4_fingerprint:
+          type: string
+        is_trusted_user:
+          type: boolean
+      additionalProperties: true
     CreateVerificationRequest:
       type: object
       required:
@@ -206,24 +227,6 @@ components:
         dispatch_id:
           type: string
           description: Identifier of a dispatch created by the Prelude frontend SDK.
-    VerificationCheck:
-      type: object
-      properties:
-        id:
-          type: string
-          example: vrf_01jc0t6fwwfgfsq1md24mhyztj
-        status:
-          type: string
-          enum:
-          - success
-          - failure
-          - expired_or_not_found
-          - transaction_missing
-          - transaction_mismatch
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        request_id:
-          type: string
     CheckVerificationRequest:
       type: object
       required:
@@ -245,13 +248,6 @@ components:
               type: string
             recipient:
               type: string
-    Metadata:
-      type: object
-      properties:
-        correlation_id:
-          type: string
-          maxLength: 80
-          description: A user-defined identifier to correlate this call with others.
     Error:
       type: object
       properties:
@@ -263,25 +259,29 @@ components:
           type: string
         request_id:
           type: string
-  responses:
-    BadRequest:
-      description: The request was invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Target:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: The kind of target identifier.
+          enum:
+          - phone_number
+          - email_address
+        value:
+          type: string
+          description: An E.164 formatted phone number or an email address.
+          example: '+30123456789'
+    Metadata:
+      type: object
+      properties:
+        correlation_id:
+          type: string
+          maxLength: 80
+          description: A user-defined identifier to correlate this call with others.
   securitySchemes:
     bearerAuth:
       type: http
