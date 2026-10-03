@@ -68,25 +68,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     VerificationCheck:
       type: object
@@ -106,6 +87,43 @@ components:
           $ref: '#/components/schemas/Metadata'
         request_id:
           type: string
+    Target:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: The kind of target identifier.
+          enum:
+          - phone_number
+          - email_address
+        value:
+          type: string
+          description: An E.164 formatted phone number or an email address.
+          example: '+30123456789'
+    CheckVerificationRequest:
+      type: object
+      required:
+      - target
+      - code
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        code:
+          type: string
+          description: The one-time passcode submitted by the end user.
+        psd2:
+          type: object
+          description: Transaction details for PSD2 (dynamic linking) verifications.
+          properties:
+            amount:
+              type: string
+            currency:
+              type: string
+            recipient:
+              type: string
     Verification:
       type: object
       properties:
@@ -146,33 +164,24 @@ components:
           $ref: '#/components/schemas/Metadata'
         request_id:
           type: string
-    Signals:
+    Error:
       type: object
-      description: Anti-fraud signals gathered from the end user's device / session.
       properties:
-        ip:
+        code:
           type: string
-        device_id:
+        message:
           type: string
-        device_platform:
+        type:
           type: string
-          enum:
-          - android
-          - ios
-          - web
-        device_model:
+        request_id:
           type: string
-        os_version:
+    Metadata:
+      type: object
+      properties:
+        correlation_id:
           type: string
-        app_version:
-          type: string
-        user_agent:
-          type: string
-        ja4_fingerprint:
-          type: string
-        is_trusted_user:
-          type: boolean
-      additionalProperties: true
+          maxLength: 80
+          description: A user-defined identifier to correlate this call with others.
     CreateVerificationRequest:
       type: object
       required:
@@ -227,61 +236,52 @@ components:
         dispatch_id:
           type: string
           description: Identifier of a dispatch created by the Prelude frontend SDK.
-    CheckVerificationRequest:
+    Signals:
       type: object
-      required:
-      - target
-      - code
+      description: Anti-fraud signals gathered from the end user's device / session.
       properties:
-        target:
-          $ref: '#/components/schemas/Target'
-        code:
+        ip:
           type: string
-          description: The one-time passcode submitted by the end user.
-        psd2:
-          type: object
-          description: Transaction details for PSD2 (dynamic linking) verifications.
-          properties:
-            amount:
-              type: string
-            currency:
-              type: string
-            recipient:
-              type: string
-    Error:
-      type: object
-      properties:
-        code:
+        device_id:
           type: string
-        message:
+        device_platform:
           type: string
-        type:
-          type: string
-        request_id:
-          type: string
-    Target:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          type: string
-          description: The kind of target identifier.
           enum:
-          - phone_number
-          - email_address
-        value:
+          - android
+          - ios
+          - web
+        device_model:
           type: string
-          description: An E.164 formatted phone number or an email address.
-          example: '+30123456789'
-    Metadata:
-      type: object
-      properties:
-        correlation_id:
+        os_version:
           type: string
-          maxLength: 80
-          description: A user-defined identifier to correlate this call with others.
+        app_version:
+          type: string
+        user_agent:
+          type: string
+        ja4_fingerprint:
+          type: string
+        is_trusted_user:
+          type: boolean
+      additionalProperties: true
+  responses:
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
