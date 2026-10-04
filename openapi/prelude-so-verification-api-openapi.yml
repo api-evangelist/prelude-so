@@ -87,94 +87,6 @@ components:
           $ref: '#/components/schemas/Metadata'
         request_id:
           type: string
-    Target:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          type: string
-          description: The kind of target identifier.
-          enum:
-          - phone_number
-          - email_address
-        value:
-          type: string
-          description: An E.164 formatted phone number or an email address.
-          example: '+30123456789'
-    CheckVerificationRequest:
-      type: object
-      required:
-      - target
-      - code
-      properties:
-        target:
-          $ref: '#/components/schemas/Target'
-        code:
-          type: string
-          description: The one-time passcode submitted by the end user.
-        psd2:
-          type: object
-          description: Transaction details for PSD2 (dynamic linking) verifications.
-          properties:
-            amount:
-              type: string
-            currency:
-              type: string
-            recipient:
-              type: string
-    Verification:
-      type: object
-      properties:
-        id:
-          type: string
-          example: vrf_01jc0t6fwwfgfsq1md24mhyztj
-        status:
-          type: string
-          enum:
-          - success
-          - retry
-          - challenged
-          - blocked
-          - shadow_blocked
-        method:
-          type: string
-          enum:
-          - email
-          - message
-          - silent
-          - voice
-        reason:
-          type: string
-          description: Populated when status is blocked or shadow_blocked.
-        channels:
-          type: array
-          description: Ordered sequence of delivery channels attempted.
-          items:
-            type: string
-        silent:
-          type: object
-          additionalProperties: true
-        risk_factors:
-          type: array
-          items:
-            type: string
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        request_id:
-          type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request_id:
-          type: string
     Metadata:
       type: object
       properties:
@@ -236,6 +148,83 @@ components:
         dispatch_id:
           type: string
           description: Identifier of a dispatch created by the Prelude frontend SDK.
+    Verification:
+      type: object
+      properties:
+        id:
+          type: string
+          example: vrf_01jc0t6fwwfgfsq1md24mhyztj
+        status:
+          type: string
+          enum:
+          - success
+          - retry
+          - challenged
+          - blocked
+          - shadow_blocked
+        method:
+          type: string
+          enum:
+          - email
+          - message
+          - silent
+          - voice
+        reason:
+          type: string
+          description: Populated when status is blocked or shadow_blocked.
+        channels:
+          type: array
+          description: Ordered sequence of delivery channels attempted.
+          items:
+            type: string
+        silent:
+          type: object
+          additionalProperties: true
+        risk_factors:
+          type: array
+          items:
+            type: string
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        request_id:
+          type: string
+    Target:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: The kind of target identifier.
+          enum:
+          - phone_number
+          - email_address
+        value:
+          type: string
+          description: An E.164 formatted phone number or an email address.
+          example: '+30123456789'
+    CheckVerificationRequest:
+      type: object
+      required:
+      - target
+      - code
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        code:
+          type: string
+          description: The one-time passcode submitted by the end user.
+        psd2:
+          type: object
+          description: Transaction details for PSD2 (dynamic linking) verifications.
+          properties:
+            amount:
+              type: string
+            currency:
+              type: string
+            recipient:
+              type: string
     Signals:
       type: object
       description: Anti-fraud signals gathered from the end user's device / session.
@@ -263,13 +252,18 @@ components:
         is_trusted_user:
           type: boolean
       additionalProperties: true
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request_id:
+          type: string
   responses:
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was invalid.
       content:
@@ -278,6 +272,12 @@ components:
             $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests.
       content:
         application/json:
           schema:

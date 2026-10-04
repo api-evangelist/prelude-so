@@ -88,6 +88,46 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    FeedbackWatchResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        request_id:
+          type: string
+    Metadata:
+      type: object
+      properties:
+        correlation_id:
+          type: string
+          maxLength: 80
+          description: A user-defined identifier to correlate this call with others.
+    PredictWatchRequest:
+      type: object
+      required:
+      - target
+      properties:
+        target:
+          $ref: '#/components/schemas/Target'
+        signals:
+          $ref: '#/components/schemas/Signals'
+        dispatch_id:
+          type: string
+          description: Identifier of a dispatch created by the Prelude frontend SDK.
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    DispatchEventsRequest:
+      type: object
+      description: Modeled request shape; the published documentation references this endpoint but did not include its full schema at review time.
+      properties:
+        dispatch_id:
+          type: string
+        events:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     PredictWatchResponse:
       type: object
       properties:
@@ -156,38 +196,6 @@ components:
           type: string
           description: An E.164 formatted phone number or an email address.
           example: '+30123456789'
-    PredictWatchRequest:
-      type: object
-      required:
-      - target
-      properties:
-        target:
-          $ref: '#/components/schemas/Target'
-        signals:
-          $ref: '#/components/schemas/Signals'
-        dispatch_id:
-          type: string
-          description: Identifier of a dispatch created by the Prelude frontend SDK.
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request_id:
-          type: string
-    Metadata:
-      type: object
-      properties:
-        correlation_id:
-          type: string
-          maxLength: 80
-          description: A user-defined identifier to correlate this call with others.
     Signals:
       type: object
       description: Anti-fraud signals gathered from the end user's device / session.
@@ -215,25 +223,17 @@ components:
         is_trusted_user:
           type: boolean
       additionalProperties: true
-    FeedbackWatchResponse:
+    Error:
       type: object
       properties:
-        status:
+        code:
           type: string
-          example: success
+        message:
+          type: string
+        type:
+          type: string
         request_id:
           type: string
-    DispatchEventsRequest:
-      type: object
-      description: Modeled request shape; the published documentation references this endpoint but did not include its full schema at review time.
-      properties:
-        dispatch_id:
-          type: string
-        events:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
   responses:
     BadRequest:
       description: The request was invalid.

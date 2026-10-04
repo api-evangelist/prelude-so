@@ -66,6 +66,17 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    NetworkInfo:
+      type: object
+      properties:
+        carrier_name:
+          type: string
+        mcc:
+          type: string
+          description: Mobile Country Code.
+        mnc:
+          type: string
+          description: Mobile Network Code.
     LookupResponse:
       type: object
       properties:
@@ -108,17 +119,6 @@ components:
           type: string
         request_id:
           type: string
-    NetworkInfo:
-      type: object
-      properties:
-        carrier_name:
-          type: string
-        mcc:
-          type: string
-          description: Mobile Country Code.
-        mnc:
-          type: string
-          description: Mobile Network Code.
   securitySchemes:
     bearerAuth:
       type: http
